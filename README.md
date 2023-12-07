@@ -21,14 +21,16 @@ To compile SMR for Windows, create and enter a build directory, and run:
 
 To compile SMR for Linux (with gcc), enter the build folder and run:
 
-```cmake ..
+```
+cmake ..
 make
 optional: make install
 ```
 
 Note: on Linux it is may be convenient to avoid compatibility issues with certain libraries by turning off compilation of Smoldyn's graphics modules. This can be done by ensuring the following lines in CMakeLists.txt (located in SMR's base directory) are set to OFF:
 
-```option(OPTION_USE_OPENGL "Build with OpenGL support" ON)
+```
+option(OPTION_USE_OPENGL "Build with OpenGL support" ON)
 option(OPTION_USE_LIBTIFF "Build with LibTiff support" ON)
 ```
 		
@@ -58,9 +60,10 @@ The filename argument should reference the location of a text file where readout
 The filename argument should reference the location of a text file where monitoring/debugging information will be written. The infotype argument is a string specifying what information will be written: infotype=debug provides primary debug information and infotype=ktraj (or infotype=kspace) provides k-space coordinates. Primary debug information for SMR encompasses every global or ensemble value relevant to the Bloch model, and will be written as a series of lines containing space-delimited values as follows: time (in seconds), RF amplitude, Gx amplitude, Gy amplitude, Gz amplitude, ADC state (on/off), total x-magnetization, total y-magnetization, and total z-magnetization. Both primary information and k-space coordinates can be written during a simulation by using two smrdebug commands with different infotypes. The writefreq argument is an integer specifying how often the information will be written relative to the total number of simulation timesteps. For example, setting writefreq=100 means that the information will be written every 100 timesteps. Debug commands, especially with low values for writefreq, will cause significant slowdown of the simulation, so simulation time and/or particle count should be dramatically reduced for debugging.
 	
 
-```cmd \@ t smrsetxmag Mx
-cmd \@ t smrsetymag My
-cmd \@ t smrsetzmag Mz
+```
+cmd @ t smrsetxmag Mx
+cmd @ t smrsetymag My
+cmd @ t smrsetzmag Mz
 ```
 
 These commands directly set the magnetization value on the given axis for all particles in the simulation, which can be useful for debugging.
