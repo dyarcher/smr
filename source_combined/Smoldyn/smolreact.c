@@ -2626,14 +2626,15 @@ failure:
 /* doreact */
 int doreact(simptr sim,rxnptr rxn,moleculeptr mptr1,moleculeptr mptr2,int ll1,int m1,int ll2,int m2,double *pos,panelptr rxnpnl) {
 	int order,prd,d,nprod,dim,calc,dorxnlog,prd2,er;
+
+    moleculeptr smrrxnmptr1,smrrxnmptr2; // SMR
+	int smrprdcnt = 0; // SMR
+	int smrassigned = 0; // SMR
 	long int pserno;
 	unsigned long long sernolist[MAXPRODUCT];
 	double dc1,dc2,x,dist,pvalue;
 	molssptr mols;
 	moleculeptr mptr,mptrfrom;
-	moleculeptr bemathmrrxnmptr1,bemathmrrxnmptr2; // BEMATHMR
-	int bemathmrprdcnt = 0; // BEMATHMR
-	int bemathmrassigned = 0; // BEMATHMR
 	boxptr rxnbptr;
 	double v1[DIMMAX],v2[DIMMAX],rxnpos[DIMMAX],m3[DIMMAX*DIMMAX];
 	enum MolecState ms;
@@ -2701,17 +2702,17 @@ int doreact(simptr sim,rxnptr rxn,moleculeptr mptr1,moleculeptr mptr2,int ll1,in
 			mptr->box=rxnbptr; }
 		sim->mols->expand[mptr->ident]|=1;
 
-		// BEMATHMR needs a new blockptr for zeroth order reactions
+        // SMR needs a new blockptr for zeroth order reactions
 		if (order==0) {
-			bemathmrblockptr bemathmrblock;
-			bemathmrblock.smolmptr = mptr;
-			bemathmrblock.spinspecies = mptr->ident;
-			bemathmrblock.gyromag = 0.0;
-			bemathmrblock.Mx = 0.0;
-			bemathmrblock.My = 0.0;
-			bemathmrblock.Mz = 1.0;//bemathmrBasePols[mptr->ident];
-			bemathmrblock.M0 = bemathmrblock.Mx + bemathmrblock.My + bemathmrblock.Mz;
-			bemathmrblocks.push_back(bemathmrblock);
+			smrblockptr smrblock;
+			smrblock.smolmptr = mptr;
+			smrblock.spinspecies = mptr->ident;
+			smrblock.gyromag = 0.0;
+			smrblock.Mx = 0.0;
+			smrblock.My = 0.0;
+			smrblock.Mz = 1.0;//smrBasePols[mptr->ident];
+			smrblock.M0 = smrblock.Mx + smrblock.My + smrblock.Mz;
+			smrblocks.push_back(smrblock);
 		}
 
 		if(rxn->rparamt==RPconfspread) {					// confspread reaction
@@ -2875,29 +2876,29 @@ int doreact(simptr sim,rxnptr rxn,moleculeptr mptr1,moleculeptr mptr2,int ll1,in
 			if(dorxnlog==2) {
 				scmdfprintf(sim->cmds,fptr," %s",molserno2string(mptr->serno,string));
 				if(prd==nprod-1) scmdfprintf(sim->cmds,fptr,"\n"); }}
-		
-		// track products for BEMATHMR
+				
+		// track products for SMR
 		if (prd == 0) {
-			bemathmrrxnmptr1 = mptr;
-			bemathmrprdcnt = 1;
+			smrrxnmptr1 = mptr;
+			smrprdcnt = 1;
 		} else if (prd == 1) {
-			bemathmrrxnmptr2 = mptr;
-			bemathmrprdcnt = 2;
-		}	
+			smrrxnmptr2 = mptr;
+			smrprdcnt = 2;
+		}
 	}
 
-	// BEMATHMR - reassign BEMATHMR block pointers
-	for (int i = 0; i < bemathmrblocks.size() & bemathmrassigned < bemathmrprdcnt; i++) {
-		if (bemathmrblocks[i].smolmptr == mptr1) {
-			bemathmrblocks[i].smolmptr = bemathmrrxnmptr1;
-			bemathmrblocks[i].spinspecies = bemathmrrxnmptr1->ident;
-			bemathmrassigned += 1;
+	// SMR - reassign SMR block pointers
+	for (int i = 0; i < smrblocks.size() & smrassigned < smrprdcnt; i++) {
+		if (smrblocks[i].smolmptr == mptr1) {
+			smrblocks[i].smolmptr = smrrxnmptr1;
+			smrblocks[i].spinspecies = smrrxnmptr1->ident;
+			smrassigned += 1;
 			continue;
 		}
-		if (bemathmrblocks[i].smolmptr == mptr2) {
-			bemathmrblocks[i].smolmptr = bemathmrrxnmptr2;
-			bemathmrblocks[i].spinspecies = bemathmrrxnmptr2->ident;
-			bemathmrassigned += 1;
+		if (smrblocks[i].smolmptr == mptr2) {
+			smrblocks[i].smolmptr = smrrxnmptr2;
+			smrblocks[i].spinspecies = smrrxnmptr2->ident;
+			smrassigned += 1;
 			continue;
 		}
 	}

@@ -2716,11 +2716,11 @@ int molsupdate(simptr sim) {
 /*********************** adding and removing molecules ************************/
 /******************************************************************************/
 
-/* killbemathmrblock */
-void killbemathmrblock(moleculeptr mptr) {
-	for (int i = 0; i < bemathmrblocks.size(); i++) {
-		if (bemathmrblocks[i].smolmptr == mptr) {
-			bemathmrblocks.erase(bemathmrblocks.begin()+i);
+/* killsmrblock */
+void killsmrblock(moleculeptr mptr) {
+	for (int i = 0; i < smrblocks.size(); i++) {
+		if (smrblocks[i].smolmptr == mptr) {
+			smrblocks.erase(smrblocks.begin()+i);
 			break;
 		}
 	}
@@ -2740,7 +2740,8 @@ void molkill(simptr sim,moleculeptr mptr,int ll,int m) {
 	else if(m<0) sim->mols->sortl[ll]=0;
 	else if(m<sim->mols->sortl[ll]) sim->mols->sortl[ll]=m;
 	sim->mols->touch++;
-	killbemathmrblock(mptr);
+
+killsmrblock(mptr);
 	return; }
 
 
@@ -2767,17 +2768,17 @@ moleculeptr getnextmol(molssptr mols) {
 moleculeptr newestmol(molssptr mols) {
 	return mols->dead[mols->topd-1]; }
 
-/* addbemathmrblock */
-int addbemathmrblock(simptr sim, moleculeptr mptr) {
-	bemathmrblockptr bemathmrblock;
-	bemathmrblock.smolmptr = mptr;
-	bemathmrblock.spinspecies = mptr->ident;
-	bemathmrblock.gyromag = 0.0;
-	bemathmrblock.Mx = 0.0;
-	bemathmrblock.My = 0.0;
-	bemathmrblock.Mz = 1.0;
-	bemathmrblock.M0 = bemathmrblock.Mx + bemathmrblock.My + bemathmrblock.Mz;
-	bemathmrblocks.push_back(bemathmrblock);
+/* addsmrblock */
+int addsmrblock(simptr sim, moleculeptr mptr) {
+	smrblockptr smrblock;
+	smrblock.smolmptr = mptr;
+	smrblock.spinspecies = mptr->ident;
+	smrblock.gyromag = 0.0;
+	smrblock.Mx = 0.0;
+	smrblock.My = 0.0;
+	smrblock.Mz = 1.0;
+	smrblock.M0 = smrblock.Mx + smrblock.My + smrblock.Mz;
+	smrblocks.push_back(smrblock);
 	return 0;
 }
 
@@ -2802,7 +2803,8 @@ int addmol(simptr sim,int nmol,int ident,double *poslo,double *poshi,int sort) {
 			mptr->box=pos2box(sim,mptr->pos);
 		else mptr->box=NULL;
 	}
-	addbemathmrblock(sim, mptr);
+
+addsmrblock(sim, mptr);
 	molsetexist(sim,ident,MSsoln,1);
 	sim->mols->expand[ident]|=1;
 	if(sort)

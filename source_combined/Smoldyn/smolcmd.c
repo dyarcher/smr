@@ -147,28 +147,26 @@ enum CMDcode cmdexpandsystem(simptr sim,cmdptr cmd,char *line2);
 enum CMDcode cmdtranslatecmpt(simptr sim,cmdptr cmd,char *line2);
 enum CMDcode cmddiffusecmpt(simptr sim,cmdptr cmd,char *line2);
 
-// BEMATHMR commands
-enum CMDcode cmdbemathmrgyromag(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrsetparams(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrtrackmag(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrtransmag(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrtotmag(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrresetmag(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrsetxmag(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrsetymag(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrsetzmag(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrmolstate(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrinfo(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrparseq(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrlinseq(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrsetT1(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrsetT2(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrsetHPT1(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrsetBasePol(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrsetGyro(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrsetCS(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrreadadc(simptr sim,cmdptr cmd,char *line2);
-enum CMDcode cmdbemathmrwritereadout(simptr sim,cmdptr cmd,char *line2);
+// SMR commands
+enum CMDcode cmdsmrgyromag(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrsetparams(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrtrackmag(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrtransmag(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrtotmag(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrspecmag(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrresetmag(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrsetxmag(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrsetymag(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrsetzmag(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrscalespecmag(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrmolstate(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrinfo(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrparseq(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrlinseq(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrsetMR(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrsetHPMR(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrreadadc(simptr sim,cmdptr cmd,char *line2);
+enum CMDcode cmdsmrwritereadout(simptr sim,cmdptr cmd,char *line2);
 
 // Smoldyn function declarations
 double fnmolcount(void *voidsim,char *erstr,char *line2);
@@ -315,30 +313,29 @@ enum CMDcode docommand(void *cmdfnarg,cmdptr cmd,char *line) {
 	else if(!strcmp(word,"vcellDataProcess")) return cmdVCellDataProcess(sim,cmd,line2);
 #endif
 
-//#ifdef __bemathmr_h__
-	// BEMATHMR commands
-	else if(!strcmp(word,"bemathmrgyromag")) return cmdbemathmrgyromag(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrsetparams")) return cmdbemathmrsetparams(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrtrackmag")) return cmdbemathmrtrackmag(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrtransmag")) return cmdbemathmrtransmag(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrtotmag")) return cmdbemathmrtotmag(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrresetmag")) return cmdbemathmrresetmag(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrsetxmag")) return cmdbemathmrsetxmag(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrsetymag")) return cmdbemathmrsetymag(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrsetzmag")) return cmdbemathmrsetzmag(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrmolstate")) return cmdbemathmrmolstate(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrinfo")) return cmdbemathmrinfo(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrparseq")) return cmdbemathmrparseq(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrlinseq")) return cmdbemathmrparseq(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrsetT1")) return cmdbemathmrsetT1(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrsetT2")) return cmdbemathmrsetT2(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrsetHPT1")) return cmdbemathmrsetHPT1(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrsetBasePol")) return cmdbemathmrsetBasePol(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrsetGyro")) return cmdbemathmrsetGyro(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrsetCS")) return cmdbemathmrsetCS(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrreadadc")) return cmdbemathmrreadadc(sim,cmd,line2);
-	else if(!strcmp(word,"bemathmrwritereadout")) return cmdbemathmrwritereadout(sim,cmd,line2);
+//#ifdef __smr_h__
+	// SMR commands
+	else if(!strcmp(word,"smrgyromag")) return cmdsmrgyromag(sim,cmd,line2);
+	else if(!strcmp(word,"smrsetparams")) return cmdsmrsetparams(sim,cmd,line2);
+	else if(!strcmp(word,"smrtrackmag")) return cmdsmrtrackmag(sim,cmd,line2);
+	else if(!strcmp(word,"smrtransmag")) return cmdsmrtransmag(sim,cmd,line2);
+	else if(!strcmp(word,"smrtotmag")) return cmdsmrtotmag(sim,cmd,line2);
+	else if(!strcmp(word,"smrspecmag")) return cmdsmrspecmag(sim,cmd,line2);
+	else if(!strcmp(word,"smrresetmag")) return cmdsmrresetmag(sim,cmd,line2);
+	else if(!strcmp(word,"smrsetxmag")) return cmdsmrsetxmag(sim,cmd,line2);
+	else if(!strcmp(word,"smrsetymag")) return cmdsmrsetymag(sim,cmd,line2);
+	else if(!strcmp(word,"smrsetzmag")) return cmdsmrsetzmag(sim,cmd,line2);
+	else if(!strcmp(word,"smrscalespecmag")) return cmdsmrscalespecmag(sim,cmd,line2);
+	else if(!strcmp(word,"smrmolstate")) return cmdsmrmolstate(sim,cmd,line2);
+	else if(!strcmp(word,"smrinfo")) return cmdsmrinfo(sim,cmd,line2);
+	else if(!strcmp(word,"smrparseq")) return cmdsmrparseq(sim,cmd,line2);
+	else if(!strcmp(word,"smrlinseq")) return cmdsmrparseq(sim,cmd,line2);
+	else if(!strcmp(word,"smrsetMR")) return cmdsmrsetMR(sim,cmd,line2);
+	else if(!strcmp(word,"smrsetHPMR")) return cmdsmrsetHPMR(sim,cmd,line2);
+	else if(!strcmp(word,"smrreadadc")) return cmdsmrreadadc(sim,cmd,line2);
+	else if(!strcmp(word,"smrwritereadout")) return cmdsmrwritereadout(sim,cmd,line2);
 //#endif
+
 
 	SCMDCHECK(0,"command not recognized");
 	return CMDwarn; }
@@ -4756,9 +4753,8 @@ int molinpanels(simptr sim,moleculeptr mptr,int s,enum PanelShape ps) {
 		if(Geo_PtInSphere(pos,pnl->point[0],pnl->point[1][0],dim)) return 1; }
 	return 0; }
 
-
-/** BEMATHMR commands **/
-enum CMDcode cmdbemathmrgyromag(simptr sim,cmdptr cmd,char *line2) {   // trivial command function just to show format
+/** SMR commands **/
+enum CMDcode cmdsmrgyromag(simptr sim,cmdptr cmd,char *line2) {   // trivial command function just to show format
 	int er,dataid;
 	FILE *fptr;                                                   // file pointer
 	
@@ -4767,18 +4763,18 @@ enum CMDcode cmdbemathmrgyromag(simptr sim,cmdptr cmd,char *line2) {   // trivia
 	SCMDCHECK(er!=-1,"file name not recognized");                 // throw error if filename not recognized
 	scmdfprintf(cmd->cmds,fptr,"%g",sim->time);                   // print sim time to file
 	scmdfprintf(cmd->cmds,fptr," ");                              // print space to file
-	scmdfprintf(cmd->cmds,fptr,"%lf",bemathmrblocks[0].gyromag);       // print gyromagnetic ratio to file
+	scmdfprintf(cmd->cmds,fptr,"%lf",smrblocks[0].gyromag);       // print gyromagnetic ratio to file
 	scmdfprintf(cmd->cmds,fptr,"\n");                             // print newline to file
 	scmdflush(fptr);
 	return CMDok;
 }
-enum CMDcode cmdbemathmrsetparams(simptr sim,cmdptr cmd,char *line2) {   // command to set BEMATHMR parameters
+enum CMDcode cmdsmrsetparams(simptr sim,cmdptr cmd,char *line2) {   // command to set SMR parameters
 	int er,dataid;
 	if(line2 && !strcmp(line2 ,"cmdtype")) return CMDobserve;     // check command is valid
-	bemathmrparseparams(line2);
+	smrparseparams(line2);
 	return CMDok;
 }
-enum CMDcode cmdbemathmrtrackmag(simptr sim,cmdptr cmd,char *line2) {   // track bemathmr block magnetization
+enum CMDcode cmdsmrtrackmag(simptr sim,cmdptr cmd,char *line2) {   // track smr block magnetization
 	int er,dataid,i;
 	FILE *fptr;                                                   // file pointer
 	
@@ -4786,20 +4782,20 @@ enum CMDcode cmdbemathmrtrackmag(simptr sim,cmdptr cmd,char *line2) {   // track
 	er=scmdgetfptr(sim->cmds,line2,3,&fptr,&dataid);              // get file
 	SCMDCHECK(er!=-1,"file name not recognized");                 // throw error if filename not recognized
 	scmdfprintf(cmd->cmds,fptr,"%g",sim->time);                   // print sim time to file
-	for (i = 0; i < bemathmrblocks.size(); i++) {
+	for (i = 0; i < smrblocks.size(); i++) {
 		scmdfprintf(cmd->cmds,fptr," ");
-		scmdfprintf(cmd->cmds,fptr,"%lf",bemathmrblocks[i].Mx);       // print Mx to file
+		scmdfprintf(cmd->cmds,fptr,"%lf",smrblocks[i].Mx);       // print Mx to file
 		scmdfprintf(cmd->cmds,fptr,",");
-		scmdfprintf(cmd->cmds,fptr,"%lf",bemathmrblocks[i].My);       // print My to file
+		scmdfprintf(cmd->cmds,fptr,"%lf",smrblocks[i].My);       // print My to file
 		scmdfprintf(cmd->cmds,fptr,",");
-		scmdfprintf(cmd->cmds,fptr,"%lf",bemathmrblocks[i].Mz);       // print Mz to file
+		scmdfprintf(cmd->cmds,fptr,"%lf",smrblocks[i].Mz);       // print Mz to file
 	}
 	scmdfprintf(cmd->cmds,fptr,"\n");                             // print newline to file
 	scmdflush(fptr);
 	return CMDok;
 }
 
-enum CMDcode cmdbemathmrtransmag(simptr sim,cmdptr cmd,char *line2) {   // track total transverse magnetization
+enum CMDcode cmdsmrtransmag(simptr sim,cmdptr cmd,char *line2) {   // track total transverse magnetization
 	int er,dataid,i;
 	FILE *fptr;                                                   // file pointer
 	
@@ -4809,15 +4805,15 @@ enum CMDcode cmdbemathmrtransmag(simptr sim,cmdptr cmd,char *line2) {   // track
 	scmdfprintf(cmd->cmds,fptr,"%g",sim->time);                   // print sim time to file
 	scmdfprintf(cmd->cmds,fptr," ");
 	double transmag = 0.;
-	for (i = 0; i < bemathmrblocks.size(); i++) {
-		transmag += sqrt(pow(bemathmrblocks[i].Mx,2)+pow(bemathmrblocks[i].My,2)); // add transverse magnetization to total
+	for (i = 0; i < smrblocks.size(); i++) {
+		transmag += sqrt(pow(smrblocks[i].Mx,2)+pow(smrblocks[i].My,2)); // add transverse magnetization to total
 	}
 	scmdfprintf(cmd->cmds,fptr,"%lf",transmag);                   // print transverse magnetization to file
 	scmdfprintf(cmd->cmds,fptr,"\n");                             // print newline to file
 	scmdflush(fptr);
 	return CMDok;
 }
-enum CMDcode cmdbemathmrtotmag(simptr sim,cmdptr cmd,char *line2) {   // track total magnetization
+enum CMDcode cmdsmrtotmag(simptr sim,cmdptr cmd,char *line2) {   // track total magnetization
 	int er,dataid,i;
 	FILE *fptr;                                                   // file pointer
 	
@@ -4828,11 +4824,11 @@ enum CMDcode cmdbemathmrtotmag(simptr sim,cmdptr cmd,char *line2) {   // track t
 	double xmag = 0.;
 	double ymag = 0.;
 	double zmag = 0.;
-	for (i = 0; i < bemathmrblocks.size(); i++) {
-		if (bemathmrGyros[bemathmrblocks[i].spinspecies-1] < 1e-3) continue;
-		xmag += bemathmrblocks[i].Mx; // add x-magnetization to total
-		ymag += bemathmrblocks[i].My; // add y-magnetization to total
-		zmag += bemathmrblocks[i].Mz; // add z-magnetization to total
+	for (i = 0; i < smrblocks.size(); i++) {
+		if (smrGyros[smrblocks[i].spinspecies-1] < 1e-3) continue;
+		xmag += smrblocks[i].Mx; // add x-magnetization to total
+		ymag += smrblocks[i].My; // add y-magnetization to total
+		zmag += smrblocks[i].Mz; // add z-magnetization to total
 	}
 	scmdfprintf(cmd->cmds,fptr," ");
 	scmdfprintf(cmd->cmds,fptr,"%lf",xmag);       // print Mx to file
@@ -4844,48 +4840,86 @@ enum CMDcode cmdbemathmrtotmag(simptr sim,cmdptr cmd,char *line2) {   // track t
 	scmdflush(fptr);
 	return CMDok;
 }
-enum CMDcode cmdbemathmrresetmag(simptr sim,cmdptr cmd,char *line2) {   // reset magnetization to equilibrium state (0,0,1) - for debugging only
+enum CMDcode cmdsmrspecmag(simptr sim,cmdptr cmd,char *line2) {   // track total magnetization
+	int er,dataid,i;
+	FILE *fptr;                                                   // file pointer
+	
+	if(line2 && !strcmp(line2 ,"cmdtype")) return CMDobserve;     // check command is valid
+	smroutput(line2);
+	return CMDok;
+}
+enum CMDcode cmdsmrresetmag(simptr sim,cmdptr cmd,char *line2) {   // reset magnetization to equilibrium state (0,0,1) - for debugging only
 	int i;
-	for (i = 0; i < bemathmrblocks.size(); i++) {
-		bemathmrblocks[i].Mx = 0.0;
-		bemathmrblocks[i].My = 0.0;
-		bemathmrblocks[i].Mz = 1.0;
-		bemathmrblocks[i].M0 = 1.0;
+	for (i = 0; i < smrblocks.size(); i++) {
+		smrblocks[i].Mx = 0.0;
+		smrblocks[i].My = 0.0;
+		smrblocks[i].Mz = 1.0;
+		smrblocks[i].M0 = 1.0;
 	}
 	return CMDok;
 }
-enum CMDcode cmdbemathmrsetxmag(simptr sim,cmdptr cmd,char *line2) {   // set x magnetization component to specific value (generally zero)
+enum CMDcode cmdsmrsetxmag(simptr sim,cmdptr cmd,char *line2) {   // set x magnetization component to specific value (generally zero)
 	if(line2 && !strcmp(line2 ,"cmdtype")) return CMDobserve;     // check command is valid
 	double magval = std::stod(line2);
 	int i;
-	for (i = 0; i < bemathmrblocks.size(); i++) {
-		bemathmrblocks[i].Mx = magval;
+	for (i = 0; i < smrblocks.size(); i++) {
+		smrblocks[i].Mx = magval;
 	}
 	return CMDok;
 }
-enum CMDcode cmdbemathmrsetymag(simptr sim,cmdptr cmd,char *line2) {   // set y magnetization component to specific value (generally zero)
+enum CMDcode cmdsmrsetymag(simptr sim,cmdptr cmd,char *line2) {   // set y magnetization component to specific value (generally zero)
 	if(line2 && !strcmp(line2 ,"cmdtype")) return CMDobserve;     // check command is valid
 	double magval = std::stod(line2);
 	int i;
-	for (i = 0; i < bemathmrblocks.size(); i++) {
-		bemathmrblocks[i].My = magval;
+	for (i = 0; i < smrblocks.size(); i++) {
+		smrblocks[i].My = magval;
 	}
 	return CMDok;
 }
-enum CMDcode cmdbemathmrsetzmag(simptr sim,cmdptr cmd,char *line2) {   // set z magnetization component to specific value (generally zero)
+enum CMDcode cmdsmrsetzmag(simptr sim,cmdptr cmd,char *line2) {   // set z magnetization component to specific value (generally zero)
 	if(line2 && !strcmp(line2 ,"cmdtype")) return CMDobserve;     // check command is valid
 	double magval = std::stod(line2);
 	int i;
-	for (i = 0; i < bemathmrblocks.size(); i++) {
-		bemathmrblocks[i].Mz = magval;
+	for (i = 0; i < smrblocks.size(); i++) {
+		smrblocks[i].Mz = magval;
 	}
 	return CMDok;
 }
-enum CMDcode cmdbemathmrmolstate(simptr sim,cmdptr cmd,char *line2) {   // save molecule state to file using associated bemathmr block
+enum CMDcode cmdsmrscalespecmag(simptr sim,cmdptr cmd,char *line2) {   // scale magnetization for given particle species
+	if(line2 && !strcmp(line2 ,"cmdtype")) return CMDobserve;     // check command is valid
+	// parse command line
+	const char s[2] = " ";
+	char *token;
+	token = strtok(line2, s);
+	int species = 0;
+	double scalefactor = 0.;
+	int i = 0;
+	while (token != NULL) {
+		if (i == 0) { // species to scale
+			species = std::stoi(token);
+		} else if (i == 1) { // scaling factor
+			scalefactor = std::stod(token);
+		}
+		token = strtok(NULL, s);
+		i += 1;
+	}
+	i = 0;
+	for (i = 0; i < smrblocks.size(); i++) {
+		if (smrblocks[i].spinspecies == species) {
+			smrblocks[i].Mx *= scalefactor;
+			smrblocks[i].My *= scalefactor;
+			smrblocks[i].Mz *= scalefactor;
+		}
+	}
+	return CMDok;
+}
+
+	
+enum CMDcode cmdsmrmolstate(simptr sim,cmdptr cmd,char *line2) {   // save molecule state to file using associated smr block
 	int er,dataid;
 	FILE *fptr;                                                   // file pointer
 	char string[STRCHAR];
-	moleculeptr mptr = bemathmrblocks[0].smolmptr;
+	moleculeptr mptr = smrblocks[0].smolmptr;
 	
 	if(line2 && !strcmp(line2 ,"cmdtype")) return CMDobserve;     // check command is valid
 	er=scmdgetfptr(sim->cmds,line2,3,&fptr,&dataid);              // get file
@@ -4898,71 +4932,35 @@ enum CMDcode cmdbemathmrmolstate(simptr sim,cmdptr cmd,char *line2) {   // save 
 	return CMDok;
 }
 
-enum CMDcode cmdbemathmrinfo(simptr sim,cmdptr cmd,char *line2) {   // set debugging info on/off
+enum CMDcode cmdsmrinfo(simptr sim,cmdptr cmd,char *line2) {   // set debugging info on/off
 	int er,dataid;
 	char string[STRCHAR];
-	
 	if(line2 && !strcmp(line2 ,"cmdtype")) return CMDobserve;     // check command is valid
-	bemathmrinfo(line2);
+	smrinfo(line2);
 	return CMDok;
 }
-enum CMDcode cmdbemathmrparseq(simptr sim,cmdptr cmd,char *line2) {   // read in and parse sequence file
+enum CMDcode cmdsmrparseq(simptr sim,cmdptr cmd,char *line2) {   // read in and parse sequence file
 	int er,dataid;
 	char string[STRCHAR];
-	
 	if(line2 && !strcmp(line2 ,"cmdtype")) return CMDobserve;     // check command is valid
 	parseq(line2);
 	return CMDok;
 }
-enum CMDcode cmdbemathmrsetT1(simptr sim,cmdptr cmd,char *line2) {   // set global T1
+enum CMDcode cmdsmrsetMR(simptr sim,cmdptr cmd,char *line2) {   // set gyromagnetic ratio, chemical shift, T1, T2
 	int er,dataid;
 	char string[STRCHAR];
-	
 	if(line2 && !strcmp(line2 ,"cmdtype")) return CMDobserve;     // check command is valid
-	bemathmrT1s.push_back(std::stod(line2));
+	smrsetMR(line2);
 	return CMDok;
 }
-enum CMDcode cmdbemathmrsetT2(simptr sim,cmdptr cmd,char *line2) {   // set global T2
+enum CMDcode cmdsmrsetHPMR(simptr sim,cmdptr cmd,char *line2) {   // set base polarization, hyperpolarization relaxation time
 	int er,dataid;
 	char string[STRCHAR];
-	
 	if(line2 && !strcmp(line2 ,"cmdtype")) return CMDobserve;     // check command is valid
-	bemathmrT2s.push_back(std::stod(line2));
+	smrsetHPMR(line2);
 	return CMDok;
 }
-enum CMDcode cmdbemathmrsetHPT1(simptr sim,cmdptr cmd,char *line2) {   // set global T1
-	int er,dataid;
-	char string[STRCHAR];
-	
-	if(line2 && !strcmp(line2 ,"cmdtype")) return CMDobserve;     // check command is valid
-	bemathmrHPT1s.push_back(std::stod(line2));
-	return CMDok;
-}
-enum CMDcode cmdbemathmrsetBasePol(simptr sim,cmdptr cmd,char *line2) {   // set global T1
-	int er,dataid;
-	char string[STRCHAR];
-	
-	if(line2 && !strcmp(line2 ,"cmdtype")) return CMDobserve;     // check command is valid
-	bemathmrBasePols.push_back(std::stod(line2));
-	return CMDok;
-}
-enum CMDcode cmdbemathmrsetGyro(simptr sim,cmdptr cmd,char *line2) {   // set global gyromagnetic ratio
-	int er,dataid;
-	char string[STRCHAR];
-	
-	if(line2 && !strcmp(line2 ,"cmdtype")) return CMDobserve;     // check command is valid
-	bemathmrGyros.push_back(std::stod(line2)*6.28318530718e6); // conversion from MHz/T to rads/s/T
-	return CMDok;
-}
-enum CMDcode cmdbemathmrsetCS(simptr sim,cmdptr cmd,char *line2) {   // set global chemical shift value
-	int er,dataid;
-	char string[STRCHAR];
-	
-	if(line2 && !strcmp(line2 ,"cmdtype")) return CMDobserve;     // check command is valid
-	bemathmrCSs.push_back(std::stod(line2)*6.28318530718/3); // conversion to rads
-	return CMDok;
-}
-enum CMDcode cmdbemathmrreadadc(simptr sim,cmdptr cmd,char *line2) {   // read in adc timings
+enum CMDcode cmdsmrreadadc(simptr sim,cmdptr cmd,char *line2) {   // read in adc timings
 	int er,dataid;
 	char string[STRCHAR];
 	
@@ -4970,7 +4968,7 @@ enum CMDcode cmdbemathmrreadadc(simptr sim,cmdptr cmd,char *line2) {   // read i
 	read_adc(line2);
 	return CMDok;
 }
-enum CMDcode cmdbemathmrwritereadout(simptr sim,cmdptr cmd,char *line2) {   // write readout value
+enum CMDcode cmdsmrwritereadout(simptr sim,cmdptr cmd,char *line2) {   // write readout value
 	int er,dataid;
 	char string[STRCHAR];
 	
@@ -4978,3 +4976,5 @@ enum CMDcode cmdbemathmrwritereadout(simptr sim,cmdptr cmd,char *line2) {   // w
 	write_timecourse(line2);
 	return CMDok;
 }
+
+

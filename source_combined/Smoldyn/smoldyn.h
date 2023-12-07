@@ -211,34 +211,37 @@ typedef struct moleculestruct {
 	struct panelstruct *pnl;		// panel that molecule is bound to if any
 	struct panelstruct *pnlx;		// old panel that molecule was bound to if any
 	} *moleculeptr;
-
-// BEMATHMR
-typedef struct bemathmrblockstruct {
+	
+// SMR
+typedef struct smrblockstruct {
 	moleculeptr smolmptr;               // pointer to molecule in Smoldyn
 	int spinspecies;                    // species of spin
 	double gyromag;                     // gyromagnetic ratio
-	double Mx;                     // Mx
-	double My;                     // My
-	double Mz;                     // Mz
-	double M0;                     // total magnetization at initialization
-	double T1;                     // longitudinal relaxation time
-	double T2;                     // transverse relaxation time
-} bemathmrblockptr;
-extern std::vector<bemathmrblockptr> bemathmrblocks;
-extern std::vector<double> bemathmrT1s;
-extern std::vector<double> bemathmrT2s;
-extern std::vector<double> bemathmrGyros;
-extern std::vector<double> bemathmrCSs;
-extern std::vector<double> bemathmrHPT1s;
-extern std::vector<double> bemathmrBasePols;
-extern void bemathmr_timestep(double t, double tau);
+	double Mx;                          // Mx
+	double My;                          // My
+	double Mz;                          // Mz
+	double M0;                          // total magnetization at initialization
+	double T1;                          // longitudinal relaxation time
+	double T2;                          // transverse relaxation time
+} smrblockptr;
+extern std::vector<smrblockptr> smrblocks;
+extern std::vector<double> smrT1s;
+extern std::vector<double> smrT2s;
+extern std::vector<double> smrGyros;
+extern std::vector<double> smrCSs;
+extern std::vector<double> smrHPT1s;
+extern std::vector<double> smrBasePols;
+extern void smr_timestep(double t, double tau);
 extern void parseq(char *line2);
-extern void bemathmrinfo(char *line2);
+extern void smrinfo(char *line2);
+extern void smroutput(char *line2);
+extern void smrsetMR(char *line2);
+extern void smrsetHPMR(char *line2);
 extern void read_adc(char *filename);
-extern void bemathmrparseparams(char *filename);
+extern void smrparseparams(char *filename);
 extern void write_timecourse(char *filename);
 extern std::vector<double> mag_at_time(double t, std::vector<double> &rf_time, std::vector<double> &rf_amp, std::vector<double> &gx_time, std::vector<double> &gx_amp, std::vector<double> &gy_time, std::vector<double> &gy_amp, std::vector<double> &gz_time, std::vector<double> &gz_amp);
-extern bool bemathmrdebug;
+extern bool smrdebug;
 
 typedef struct molsuperstruct {
 	enum StructCond condition;  // structure condition

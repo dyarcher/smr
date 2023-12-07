@@ -2457,8 +2457,9 @@ int simulatetimestep(simptr sim) {
 	er=filDynamics(sim);
 	if(er) return 11;
 	
-	// BEMATHMR update
-	bemathmr_timestep(sim->time, sim->dt);
+
+    // SMR update
+	smr_timestep(sim->time, sim->dt);
 
 #ifdef ENABLE_PYTHON_CALLBACK
         for(unsigned int i = 0; i < sim->ncallbacks; i++) {
