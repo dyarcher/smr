@@ -1,0 +1,20 @@
+#graphics opengl
+
+dim 3
+boundaries x -0.128 0.128
+boundaries y -0.128 0.128
+boundaries z -0.128 0.128
+
+species wat
+difc wat 0
+cmd b smrsetMR 42.5763847446 0 50e-3 50e-3
+cmd b smrsetHPMR 1 0
+
+time_start 0
+time_stop 1290e-3
+time_step 1e-6
+
+cmd b smrwritereadout readout/ro-gre128_std_PEsp_T1-50_T2-50_60-10-4-10_50k_.txt
+cmd b smrparseq seq/gre_128/gre128_std_PEsp_60-10-4-10.seq pulseq
+cmd a smrwritereadout readout/ro-gre128_std_PEsp_T1-50_T2-50_60-10-4-10_50k_.txt
+

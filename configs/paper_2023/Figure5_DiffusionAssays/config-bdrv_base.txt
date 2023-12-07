@@ -1,0 +1,74 @@
+# Bead assay kinetics - 1st phase
+
+#graphics opengl
+frame_thickness 0
+frame_color 0 0 0
+
+# model parameters
+define EXTENT EPPWIDTH
+define HALF_EXTENT EPPWIDTHHALF
+define VERT_EXTENT EPPHEIGHT
+define KPL KPLVAL
+define KLP KLPVAL
+define OUTPUT_NAME OUTPUTFNAME
+define OUTPUT_NAME2 OUTPUTFNAME_start.txt
+define OUTPUT_NAME3 OUTPUTFNAME_end.txt
+
+dim 3
+boundaries x -HALF_EXTENT HALF_EXTENT
+boundaries y -HALF_EXTENT HALF_EXTENT
+boundaries z 0 VERT_EXTENT
+
+species pyr12
+difc pyr12 DIFCPYR12
+color pyr12 royal
+display_size pyr12 6
+cmd b smrsetMR 42.5763847446 26627.1384 100e-3 100e-3
+cmd b smrsetHPMR 1 0
+
+species lac12
+difc lac12 DIFCLAC12
+color lac12 red
+display_size lac12 4
+cmd b smrsetMR 42.5763847446 25044.6984 100e-3 100e-3
+cmd b smrsetHPMR 1 0
+
+species ldh_nadh
+difc ldh_nadh DIFCLDH
+color ldh_nadh plum
+display_size ldh_nadh 4
+cmd b smrsetMR 0 0 1 1
+cmd b smrsetHPMR 0 0
+
+species ldh_nad
+difc ldh_nad DIFCLDH
+color ldh_nad black
+display_size ldh_nad 4
+cmd b smrsetMR 0 0 1 1
+cmd b smrsetHPMR 0 0
+
+reaction c12_conv pyr12 + ldh_nadh <-> lac12 + ldh_nad KPL KLP
+
+start_surface beads
+action both all reflect
+color both 0.4 0.4 0.4 0.2
+thickness 1
+polygon both face
+SPHEREDEFS
+end_surface
+
+text_display pyr12 lac12 ldh_nadh ldh_nad time
+
+time_start 0
+time_stop TIMESTOP
+time_step TIMESTEP
+
+cmd b smrwritereadout readout/ro-OUTPUT_NAME.txt
+cmd b smrparseq seq/flip90/flip90_spectro12_10s.seq pulseq
+cmd a smrwritereadout readout/ro-OUTPUT_NAME.txt
+
+output_root ../output/lm2-
+output_files OUTPUT_NAME2 OUTPUT_NAME3
+cmd @ 0 listmols2 OUTPUT_NAME2
+cmd @ TIMESTOP listmols2 OUTPUT_NAME3
+
