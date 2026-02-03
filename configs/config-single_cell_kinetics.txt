@@ -1,0 +1,297 @@
+# single-cell enzyme kinetics model with extracellular and mitochondrial compartments
+
+#graphics opengl_good
+
+# model parameters ("INSERT_" parameters inserted by script)
+define EXTENT 10
+define HALF_EXTENT 5
+define TOTAL_EXTENT 15
+define TOTAL_HALF_EXTENT 7.5
+define MEMBRANE_RATE INSERT_MEMBRANE_RATE
+define INJECT_RATE INSERT_INJECT_RATE
+define UPTAKE_RATE INSERT_UPTAKE_RATE
+define FLOW_RATE INSERT_FLOW_RATE
+define KN_FWD INSERT_KN_FWD
+define KN_REV INSERT_KN_REV
+define KPL_CYTO INSERT_KPL_CYTO
+define KPL_MITO INSERT_KPL_MITO
+define KLP_CYTO INSERT_KLP_CYTO
+define KLP_MITO INSERT_KLP_MITO
+define KPB INSERT_KPB
+define OUTPUT_NAME INSERT_OUTPUT_NAME
+define OUTPUT_FNAME1 molcount-INSERT_OUTPUT_NAME.txt
+
+# system dimensions
+dim 3
+boundaries x -TOTAL_HALF_EXTENT TOTAL_HALF_EXTENT
+boundaries y -TOTAL_HALF_EXTENT TOTAL_HALF_EXTENT
+boundaries z -TOTAL_HALF_EXTENT TOTAL_HALF_EXTENT
+
+# set MR system parameters - alternating center frequency
+cmd b smrsetMRsystem 3.0 42.5763847446 0 1e-6 1e-6 1e-3 1e-3 # pyruvate
+cmd @ 1.1 smrsetMRsystem 3 42.5763847446 200000 1e-06 1e-06 1e-03 1e-03 # lactate
+cmd @ 2.3 smrsetMRsystem 3 42.5763847446 400000 1e-06 1e-06 1e-03 1e-03 # bicarbonate
+cmd @ 4.9 smrsetMRsystem 3 42.5763847446 0 1e-06 1e-06 1e-03 1e-03 # pyruvate
+cmd @ 6.1 smrsetMRsystem 3 42.5763847446 200000 1e-06 1e-06 1e-03 1e-03 # lactate
+cmd @ 7.3 smrsetMRsystem 3 42.5763847446 400000 1e-06 1e-06 1e-03 1e-03 # bicarbonate
+cmd @ 9.9 smrsetMRsystem 3 42.5763847446 0 1e-06 1e-06 1e-03 1e-03 # pyruvate
+cmd @ 11.1 smrsetMRsystem 3 42.5763847446 200000 1e-06 1e-06 1e-03 1e-03 # lactate
+cmd @ 12.3 smrsetMRsystem 3 42.5763847446 400000 1e-06 1e-06 1e-03 1e-03 # bicarbonate
+cmd @ 14.9 smrsetMRsystem 3 42.5763847446 0 1e-06 1e-06 1e-03 1e-03 # pyruvate
+cmd @ 16.1 smrsetMRsystem 3 42.5763847446 200000 1e-06 1e-06 1e-03 1e-03 # lactate
+cmd @ 17.3 smrsetMRsystem 3 42.5763847446 400000 1e-06 1e-06 1e-03 1e-03 # bicarbonate
+cmd @ 19.9 smrsetMRsystem 3 42.5763847446 0 1e-06 1e-06 1e-03 1e-03 # pyruvate
+cmd @ 21.1 smrsetMRsystem 3 42.5763847446 200000 1e-06 1e-06 1e-03 1e-03 # lactate
+cmd @ 22.3 smrsetMRsystem 3 42.5763847446 400000 1e-06 1e-06 1e-03 1e-03 # bicarbonate
+cmd @ 24.9 smrsetMRsystem 3 42.5763847446 0 1e-06 1e-06 1e-03 1e-03 # pyruvate
+cmd @ 26.1 smrsetMRsystem 3 42.5763847446 200000 1e-06 1e-06 1e-03 1e-03 # lactate
+cmd @ 27.3 smrsetMRsystem 3 42.5763847446 400000 1e-06 1e-06 1e-03 1e-03 # bicarbonate
+cmd @ 29.9 smrsetMRsystem 3 42.5763847446 0 1e-06 1e-06 1e-03 1e-03 # pyruvate
+cmd @ 31.1 smrsetMRsystem 3 42.5763847446 200000 1e-06 1e-06 1e-03 1e-03 # lactate
+cmd @ 32.3 smrsetMRsystem 3 42.5763847446 400000 1e-06 1e-06 1e-03 1e-03 # bicarbonate
+cmd @ 34.9 smrsetMRsystem 3 42.5763847446 0 1e-06 1e-06 1e-03 1e-03 # pyruvate
+cmd @ 36.1 smrsetMRsystem 3 42.5763847446 200000 1e-06 1e-06 1e-03 1e-03 # lactate
+cmd @ 37.3 smrsetMRsystem 3 42.5763847446 400000 1e-06 1e-06 1e-03 1e-03 # bicarbonate
+cmd @ 39.9 smrsetMRsystem 3 42.5763847446 0 1e-06 1e-06 1e-03 1e-03 # pyruvate
+cmd @ 41.1 smrsetMRsystem 3 42.5763847446 200000 1e-06 1e-06 1e-03 1e-03 # lactate
+cmd @ 42.3 smrsetMRsystem 3 42.5763847446 400000 1e-06 1e-06 1e-03 1e-03 # bicarbonate
+cmd @ 44.9 smrsetMRsystem 3 42.5763847446 0 1e-06 1e-06 1e-03 1e-03 # pyruvate
+cmd @ 46.1 smrsetMRsystem 3 42.5763847446 200000 1e-06 1e-06 1e-03 1e-03 # lactate
+cmd @ 47.3 smrsetMRsystem 3 42.5763847446 400000 1e-06 1e-06 1e-03 1e-03 # bicarbonate
+cmd @ 49.9 smrsetMRsystem 3 42.5763847446 0 1e-06 1e-06 1e-03 1e-03 # pyruvate
+cmd @ 51.1 smrsetMRsystem 3 42.5763847446 200000 1e-06 1e-06 1e-03 1e-03 # lactate
+cmd @ 52.3 smrsetMRsystem 3 42.5763847446 400000 1e-06 1e-06 1e-03 1e-03 # bicarbonate
+cmd @ 54.9 smrsetMRsystem 3 42.5763847446 0 1e-06 1e-06 1e-03 1e-03 # pyruvate
+cmd @ 56.1 smrsetMRsystem 3 42.5763847446 200000 1e-06 1e-06 1e-03 1e-03 # lactate
+cmd @ 57.3 smrsetMRsystem 3 42.5763847446 400000 1e-06 1e-06 1e-03 1e-03 # bicarbonate
+
+# particle species
+# extracellular 12C
+species ep12
+difc ep12 1.12e3
+cmd b smrsetMR 0 1 1 0
+cmd b smrsetHPMR 0 0
+
+species el12
+difc el12 1.00e3
+cmd b smrsetMR 0 1 1 0
+cmd b smrsetHPMR 0 0
+
+# cytosolic 12C
+species cp12
+difc cp12 1.12e3
+cmd b smrsetMR 0 1 1 0
+cmd b smrsetHPMR 0 0
+
+species cl12
+difc cl12 1.00e3
+cmd b smrsetMR 0 1 1 0
+cmd b smrsetHPMR 0 0
+
+# mitochondrial 12C
+species mp12
+difc mp12 1.12e3
+cmd b smrsetMR 0 1 1 0
+cmd b smrsetHPMR 0 0
+
+species ml12
+difc ml12 1.00e3
+cmd b smrsetMR 0 1 1 0
+cmd b smrsetHPMR 0 0
+
+species b12
+difc b12 1.00e3
+cmd b smrsetMR 0 1 1 0
+cmd b smrsetHPMR 0 0
+
+# vascular 13C
+species prep13
+difc prep13 0
+cmd b smrsetMR 0 1 1 0
+cmd b smrsetHPMR 0 0
+
+species vp13
+difc vp13 1.12e3
+cmd b smrsetMR 42.5763847446 60 100e-3 100
+cmd b smrsetHPMR 10000 60
+
+# extracellular 13C
+species ep13
+difc ep13 1.12e3
+cmd b smrsetMR 42.5763847446 60 100e-3 100
+cmd b smrsetHPMR 10000 60
+
+species el13
+difc el13 1.00e3
+cmd b smrsetMR 42.5763847446 45 35e-3 0
+cmd b smrsetHPMR 10000 45
+
+# cytosolic 13C
+species cp13
+difc cp13 1.12e3
+cmd b smrsetMR 42.5763847446 60 100e-3 100
+cmd b smrsetHPMR 10000 60
+
+species cl13
+difc cl13 1.00e3
+cmd b smrsetMR 42.5763847446 45 35e-3 200100
+cmd b smrsetHPMR 10000 45
+
+# mitochondrial 13C
+species mp13
+difc mp13 1.12e3
+cmd b smrsetMR 42.5763847446 60 100e-3 100
+cmd b smrsetHPMR 10000 60
+
+species ml13
+difc ml13 1.00e3
+cmd b smrsetMR 42.5763847446 45 35e-3 200100
+cmd b smrsetHPMR 10000 45
+
+species b13
+difc b13 1.00e3
+cmd b smrsetMR 42.5763847446 50 100e-3 400100
+cmd b smrsetHPMR 10000 50
+
+# enzymes and coenzymes
+species ldh
+difc ldh 50
+cmd b smrsetMR 0 1 1 0
+cmd b smrsetHPMR 0 0
+
+species nadh
+difc nadh 2.00e2
+cmd b smrsetMR 0 1 1 0
+cmd b smrsetHPMR 0 0
+
+species nad
+difc nad 2.00e2
+cmd b smrsetMR 0 1 1 0
+cmd b smrsetHPMR 0 0
+
+species ldh_nadh
+difc ldh_nadh 50
+cmd b smrsetMR 0 1 1 0
+cmd b smrsetHPMR 0 0
+
+species ldh_nad
+difc ldh_nad 50
+cmd b smrsetMR 0 1 1 0
+cmd b smrsetHPMR 0 0
+
+# transporters
+species mctc
+difc mctc 0
+cmd b smrsetMR 0 1 1 0
+cmd b smrsetHPMR 0 0
+
+species mctm
+difc mctm 0
+cmd b smrsetMR 0 1 1 0
+cmd b smrsetHPMR 0 0
+
+# dummy particle to fix reaction glitch
+species dummy
+difc dummy 0
+cmd b smrsetMR 0 1 1 0
+cmd b smrsetHPMR 0 0
+
+# injection of pyruvate
+reaction vascular_inflow prep13 -> vp13 INJECT_RATE
+reaction vascular_uptake vp13 -> ep13NPN UPTAKE_RATE
+reaction vascular_outflow vp13 -> 0 FLOW_RATE
+
+# transport reactions
+reaction mctc_p12 mctc(up) + ep12(bsoln) <-> mctc(down) + cp12(fsoln) MEMBRANE_RATE MEMBRANE_RATE
+reaction mctc_l12 mctc(up) + el12(bsoln) <-> mctc(down) + cl12(fsoln) MEMBRANE_RATE MEMBRANE_RATE
+reaction mctm_p12 mctm(up) + cp12(fsoln) <-> mctm(down) + mp12(bsoln) MEMBRANE_RATE MEMBRANE_RATE
+reaction mctm_l12 mctm(up) + cl12(fsoln) <-> mctm(down) + ml12(bsoln) MEMBRANE_RATE MEMBRANE_RATE
+reaction mctc_p13 mctc(up) + ep13(bsoln) <-> mctc(down) + cp13(fsoln) MEMBRANE_RATE MEMBRANE_RATE
+reaction mctc_l13 mctc(up) + el13(bsoln) <-> mctc(down) + cl13(fsoln) MEMBRANE_RATE MEMBRANE_RATE
+reaction mctm_p13 mctm(up) + cp13(fsoln) <-> mctm(down) + mp13(bsoln) MEMBRANE_RATE MEMBRANE_RATE
+reaction mctm_l13 mctm(up) + cl13(fsoln) <-> mctm(down) + ml13(bsoln) MEMBRANE_RATE MEMBRANE_RATE
+
+# transporter state exchange reactions
+reaction mctc_recovery mctc(up) <-> mctc(down) MEMBRANE_RATE MEMBRANE_RATE
+reaction mctm_recovery mctm(up) <-> mctm(down) MEMBRANE_RATE MEMBRANE_RATE
+
+# enzyme binding reactions
+reaction bind_nadh ldh + nadh -> dummy + ldh_nadh KN_FWD
+reaction unbind_nadh ldh_nadh -> ldh + nadh KN_REV
+reaction bind_nad ldh + nad -> dummy + ldh_nad KN_FWD
+reaction unbind_nad ldh_nad -> ldh + nad KN_REV
+# kill the dummy
+reaction kill_dummy dummy -> 0 1e10
+
+# conversion reactions
+# bidirectional pyr<->lac
+reaction c12conv cp12 + ldh_nadh <-> cl12 + ldh_nad KPL_CYTO KLP_CYTO
+reaction m12conv mp12 + ldh_nadh <-> ml12 + ldh_nad KPL_MITO KLP_MITO
+reaction c13conv cp13 + ldh_nadh <-> cl13 + ldh_nad KPL_CYTO KLP_CYTO
+reaction m13conv mp13 + ldh_nadh <-> ml13 + ldh_nad KPL_MITO KLP_MITO
+
+# irreversible pyr->bic
+reaction pb12 mp12 -> b12 KPB
+reaction pb13 mp13 -> b13 KPB
+
+# system boundaries
+start_surface walls
+action both all reflect
+color both 0 0 0
+thickness 1
+polygon both edge
+max_panels rect 6
+panel rect +0 -TOTAL_HALF_EXTENT -TOTAL_HALF_EXTENT -TOTAL_HALF_EXTENT TOTAL_EXTENT TOTAL_EXTENT
+panel rect -0 TOTAL_HALF_EXTENT -TOTAL_HALF_EXTENT -TOTAL_HALF_EXTENT TOTAL_EXTENT TOTAL_EXTENT
+panel rect +1 -TOTAL_HALF_EXTENT -TOTAL_HALF_EXTENT -TOTAL_HALF_EXTENT TOTAL_EXTENT TOTAL_EXTENT
+panel rect -1 -TOTAL_HALF_EXTENT TOTAL_HALF_EXTENT -TOTAL_HALF_EXTENT TOTAL_EXTENT TOTAL_EXTENT
+panel rect +2 -TOTAL_HALF_EXTENT -TOTAL_HALF_EXTENT -TOTAL_HALF_EXTENT TOTAL_EXTENT TOTAL_EXTENT
+panel rect -2 -TOTAL_HALF_EXTENT -TOTAL_HALF_EXTENT TOTAL_HALF_EXTENT TOTAL_EXTENT TOTAL_EXTENT
+end_surface
+
+# cellular compartment
+start_surface cellmembrane
+action both all reflect
+color both 0 0 0
+thickness 1
+polygon both edge
+max_panels rect 6
+panel rect +0 -HALF_EXTENT -HALF_EXTENT -HALF_EXTENT EXTENT EXTENT
+panel rect -0 HALF_EXTENT -HALF_EXTENT -HALF_EXTENT EXTENT EXTENT
+panel rect +1 -HALF_EXTENT -HALF_EXTENT -HALF_EXTENT EXTENT EXTENT
+panel rect -1 -HALF_EXTENT HALF_EXTENT -HALF_EXTENT EXTENT EXTENT
+panel rect +2 -HALF_EXTENT -HALF_EXTENT -HALF_EXTENT EXTENT EXTENT
+panel rect -2 -HALF_EXTENT -HALF_EXTENT HALF_EXTENT EXTENT EXTENT
+end_surface
+
+# mitochondrial compartment - spherical geometry script-generated
+start_surface mitomembrane
+action both all reflect
+color both 0.5 0.5 0.5 0.8
+thickness 1
+polygon both face
+INSERT_SPHERE_PANELS
+end_surface
+
+# simulation time and time step
+time_start 0
+time_stop 60
+time_step 1e-3
+
+# output and pulse sequence
+cmd b smrwritereadout readout/ro-OUTPUT_NAME.txt
+cmd b smrparseq seq/pulse_acquire/varflip_selective_rf.seq pulseq
+cmd a smrwritereadout readout/ro-OUTPUT_NAME.txt
+
+output_root ../output/
+output_files OUTPUT_FNAME1
+cmd n 100 molcount OUTPUT_FNAME1
+
+# transporters
+surface_mol MCTC_UP mctc(up) cellmembrane all all
+surface_mol MCTC_DOWN mctc(down) cellmembrane all all
+
+surface_mol MCTM_UP mctm(up) mitomembrane all all
+surface_mol MCTM_DOWN mctm(down) mitomembrane all all
+
+# particle initializations added by script at end of base config

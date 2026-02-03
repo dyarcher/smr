@@ -1,18 +1,18 @@
 # Magnetic Resonance Module (SMR) for use with Smoldyn
-Last Updated: 2023-12-05
+Last Updated: 2026-01-30
 
 ## Directory Map
 [compiled_versions](compiled_versions) contains SMR precompiled with Smoldyn for Windows and Linux. Current versions are compiled with Smoldyn dev version 2.65.
 
 [configs](configs) contains example configuration files for various experiments.
 
-[scripts](scripts) contains convenience scripts for generating particle positions and processing data.
+[scripts](scripts) contains scripts for installation, for creating configurations and sequences, and  forprocessing output data.
 
 [sequences](sequences) contains sequence files needed to run the example configurations.
 
 [smoldyn_docs](smoldyn_docs) contains documentation for Smoldyn (not SMR), including license information.
 
-[source_combined](source_combined) contains Smoldyn source code with SMR insertions, as well as the main SMR code (smr.cpp).
+[source](source) contains Smoldyn source code (including extensions) from the most recent compatible version. The main SMR code is contained in the Smoldyn subdirectory in the file smr.cpp. SMR requires modifications to some other Smoldyn source files, all in the Smoldyn subdirectory; previous versions are stored in dated folders for reference, starting with v202311 (the version used for the original SMR paper).
 
 ## Compilation
 To compile SMR for Windows, create and enter a build directory, and run:
@@ -27,7 +27,7 @@ make
 optional: make install
 ```
 
-Note: on Linux it is may be convenient to avoid compatibility issues with certain libraries by turning off compilation of Smoldyn's graphics modules. This can be done by ensuring the following lines in CMakeLists.txt (located in SMR's base directory) are set to OFF:
+Note: on Linux it may be convenient to avoid compatibility issues with certain libraries by turning off compilation of Smoldyn's graphics modules. This can be done by ensuring the following lines in CMakeLists.txt (located in SMR's base directory) are set to OFF:
 
 ```
 option(OPTION_USE_OPENGL "Build with OpenGL support" ON)
@@ -37,9 +37,9 @@ option(OPTION_USE_LIBTIFF "Build with LibTiff support" ON)
 ## Configuration Commands
 SMR uses the standard Smoldyn configuration format for defining all aspects of the biochemical simulation (i.e. spaces, particles species, surfaces, reactions, etc - see Smoldyn documentation for full details), but adds several commands for configuring the MR component of the simulation. These commands should be included as follows, with square brackets indicating a configurable parameter (the brackets should not be included in the statement):
 
-```cmd b smrsetMR γ CS T1 T2```
+```cmd b smrsetMR γ T1 T2 CS```
 
-This command sets the gyromagnetic ratio in MHz/T, chemical shift (Larmor frequency offset) in Hz, and longitudinal (T1) and transverse (T2) relaxation time in seconds for each particle species.
+This command sets the gyromagnetic ratio in MHz/T, longitudinal (T1) and transverse (T2) relaxation time in seconds, and chemical shift (Larmor frequency offset) in Hz for each particle species.
 
 ```cmd b smrsetHPMR BasePol HPT1```
 
@@ -67,3 +67,13 @@ cmd @ t smrsetzmag Mz
 ```
 
 These commands directly set the magnetization value on the given axis for all particles in the simulation, which can be useful for debugging.
+
+## How to Cite
+
+If you use SMR in your research, please cite the following paper:
+
+* Dingwell, D. A., & Cunningham, C. H. (2025). *Particle-based MR modeling with diffusion, microstructure, and enzymatic reactions*. Magnetic Resonance in Medicine, 93(1), 369–383.
+
+Please also cite the original Smoldyn paper:
+
+* Andrews, S. S., & Bray, D. (2004). *Stochastic simulation of chemical reactions with spatial resolution and single molecule detail*. Physical Biology, 1(3), 137–151.
